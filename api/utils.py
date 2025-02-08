@@ -148,6 +148,12 @@ def evaluate_compression(prompt: str) -> str:
 
     return response.choices[0].message.content
 
+def extract_score(eval_text):
+    """Extracts the first integer found in the evaluation output."""
+    import re
+    match = re.search(r'\b[1-4]\b', eval_text)
+    return int(match.group()) if match else 1
+
 
 
 

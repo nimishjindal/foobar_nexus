@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .utils import apply_ner, optimize_prompt, compress_prompt_api, evaluate_compression, reverse_ner, prompt_db
+from .utils import apply_ner, optimize_prompt, compress_prompt_api, evaluate_compression, reverse_ner, prompt_db, extract_score
 
 @csrf_exempt
 def process_prompt_api(request):
@@ -28,5 +28,5 @@ def process_prompt_api(request):
         user_prompt_eval_score = evaluate_compression(user_prompt)
         final_prompt_eval_score = evaluate_compression(final_prompt)
         
-        return JsonResponse({"original_prompt": user_prompt, "original_evaluation_score": user_prompt_eval_score, "final_prompt": final_prompt, "final_evaluation_score": final_prompt_eval_score})
+        return JsonResponse({"original_prompt": user_prompt, "original_evaluation_score": extract_score(user_prompt_eval_score), "final_prompt": final_prompt, "final_evaluation_score": extract_score(final_prompt_eval_score)})
     return JsonResponse({"error": "Invalid request"}, status=400)
