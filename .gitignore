@@ -1,0 +1,26 @@
+# Ignore cache files
+*.cache
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Ignore OS-specific cache files
+.DS_Store
+Thumbs.db
+
+# Ignore Python cache
+__pycache__/
+*.py[cod]
+
+# Ignore Node.js cache (if applicable)
+node_modules/
+npm-debug.log
+
+# Ignore Django cache (if applicable)
+db.sqlite3
+*.pyc
+*.pyo
+*.egg-info/
+prompt_compressor/__init__.py

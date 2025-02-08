@@ -1,0 +1,14 @@
+Django==4.2.7
+djangorestframework==3.14.0
+fastapi==0.110.0  # Needed if you want FastAPI-style API handling
+uvicorn==0.29.0  # Needed for running ASGI Django if using FastAPI
+llmlingua==0.2.2  # The core prompt compression library
+spacy==3.8.4  # Needed for Named Entity Recognition (NER)
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+sentence-transformers==3.4.1  # Needed for semantic similarity search
+torch==2.6.0  # Required for running deep learning models
+transformers==4.48.3  # Needed for handling Hugging Face models
+faiss-cpu==1.10.0  # For vector similarity search
+numpy==2.2.2  # General scientific computing
+openai==1.61.1  # Needed for GPT-based optimization (if used)
+requests==2.32.3  # Required for API calls
