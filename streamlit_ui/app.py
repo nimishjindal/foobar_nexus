@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # API Endpoint (Change this to your actual backend URL)
-API_URL = "http://35.202.44.140:8000/api/process_prompt/"
+API_URL = "https://35.202.44.140:8000/api/process_prompt/"
 
 # Streamlit Page Configuration
 st.set_page_config(page_title="AI Prompt Optimizer", page_icon="🔍", layout="wide")
