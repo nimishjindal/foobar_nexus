@@ -7,7 +7,7 @@ from .utils import apply_ner, optimize_prompt, compress_prompt_api, evaluate_com
 def process_prompt_api(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        user_prompt = data.get("prompt", "")
+        user_prompt = data.get("prompt")
         
         # Step 1: Apply NER
         anonymized_prompt, entity_mapping = apply_ner(user_prompt)
