@@ -26,9 +26,7 @@ class PromptDatabase:
         print(f"vector responses: {results}")
         
         if results:
-            
-            print(results[0])
-            
+
             document, score = results[0]
             
             if score > SIMILARITY_THRESHOLD:
