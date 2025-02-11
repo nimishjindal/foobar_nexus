@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .utils import apply_ner, optimize_prompt, compress_prompt_api, evaluate_compression, reverse_ner, prompt_db, extract_score
+from .utils import apply_ner, optimize_prompt, compress_prompt_api, evaluate_compression, reverse_ner, prompt_db
 
 @csrf_exempt
 def process_prompt_api(request):
@@ -10,7 +10,7 @@ def process_prompt_api(request):
         user_prompt = data.get("prompt")
         
         # Step 1: Apply NER
-        anonymized_prompt, entity_mapping = apply_ner(user_prompt)
+        anonymized_prompt = apply_ner(user_prompt)
         
         # Step 2: Search FAISS
         matched_prompt, similarity_score = prompt_db.search_prompt(anonymized_prompt)
@@ -22,11 +22,11 @@ def process_prompt_api(request):
             optimized_prompt = optimize_prompt(user_prompt)
             compressed_prompt = compress_prompt_api(optimized_prompt)
             final_prompt = compressed_prompt
-            anonymized_compressed_prompt, _ = apply_ner(compressed_prompt)
+            anonymized_compressed_prompt = apply_ner(compressed_prompt)
             prompt_db.add_prompt(anonymized_compressed_prompt)
         
         user_prompt_eval_score = evaluate_compression(user_prompt)
         final_prompt_eval_score = evaluate_compression(final_prompt)
         
-        return JsonResponse({"original_prompt": user_prompt, "original_evaluation_score": extract_score(user_prompt_eval_score), "final_prompt": final_prompt, "final_evaluation_score": extract_score(final_prompt_eval_score)})
+        return JsonResponse({"original_prompt": user_prompt, "original_evaluation_score": user_prompt_eval_score, "final_prompt": final_prompt, "final_evaluation_score": final_prompt_eval_score})
     return JsonResponse({"error": "Invalid request"}, status=400)

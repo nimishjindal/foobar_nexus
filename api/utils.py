@@ -20,7 +20,9 @@ def compress_prompt_api(prompt: str):
             prompt, rate=0.8, force_tokens=['\n', '?']
         )['compressed_prompt']
 
-ner_wrapper = NER()
+mapping = {}
+
+ner_wrapper = NER(mapping)
 
 def apply_ner(prompt: str):
     return ner_wrapper.apply_ner(prompt)

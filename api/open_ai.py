@@ -23,9 +23,7 @@ class OpenAI:
             4. Maintain the original intent and scope.
             5. Output only the optimized prompt.
             """
-        
-        original_prompt = "ummm. hi how ar eyou. help me write an email to nimish, "
-            
+                    
         messages = [
                 {"role": "system", "content": "You are a professional prompt engineer specializing in LLM input optimization."},
                 {"role": "user", "content": optimization_prompt.format(prompt=original_prompt)}
