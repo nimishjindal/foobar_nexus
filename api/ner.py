@@ -3,9 +3,9 @@ import spacy
 class NER:
     # class to support Named Entity Recognition (NER)
     
-    def __init__(self, entity_mapping):
+    def __init__(self):
         self.nlp = spacy.load("en_core_web_sm")
-        self.entity_mapping = entity_mapping
+        self.entity_mapping = {}
     
     def apply_ner(self, prompt: str):
         # NER and replace key entities

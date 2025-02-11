@@ -2,11 +2,20 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+from sentence_transformers import SentenceTransformer
+
+from api.compressor import Compressor
+from api.ner import NER
 from api.open_ai import OpenAI
-from .utils import apply_ner, compress_prompt_api, reverse_ner, prompt_db
+from api.prompt_database import PromptDatabase
 
 open_ai_wrapper = OpenAI()
+ner_wrapper = NER()
 
+embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+prompt_db = PromptDatabase(embedding_model=embedding_model)
+
+compressor = Compressor()
 
 @csrf_exempt
 def process_prompt_api(request):
@@ -15,20 +24,20 @@ def process_prompt_api(request):
         user_prompt = data.get("prompt")
         
         # Step 1: Apply NER
-        anonymized_prompt = apply_ner(user_prompt)
+        anonymized_prompt = ner_wrapper.apply_ner(user_prompt)
         entity_mapping = {}
         
         # Step 2: Search FAISS
         matched_prompt, similarity_score = prompt_db.search_prompt(anonymized_prompt)
         if matched_prompt:
             print(f"Similarity score: {similarity_score}")
-            final_prompt = reverse_ner(matched_prompt, entity_mapping)
+            final_prompt = ner_wrapper.reverse_ner(matched_prompt)
         else:
             print("No sufficiently similar prompt found in database.")
             optimized_prompt = open_ai_wrapper.optimize(user_prompt)
-            compressed_prompt = compress_prompt_api(optimized_prompt)
+            compressed_prompt = compressor.compress_prompt_api(optimized_prompt)
             final_prompt = compressed_prompt
-            anonymized_compressed_prompt = apply_ner(compressed_prompt)
+            anonymized_compressed_prompt = ner_wrapper.apply_ner(compressed_prompt)
             prompt_db.add_prompt(anonymized_compressed_prompt)
         
         user_prompt_eval_score = open_ai_wrapper.evaluate_compression(user_prompt)
