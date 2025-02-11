@@ -6,13 +6,11 @@ from api.compressor import Compressor
 from api.ner import NER
 from api.open_ai import OpenAI
 from api.prompt_database import PromptDatabase
-from django.conf import settings
 
 open_ai_wrapper = OpenAI()
 ner_wrapper = NER()
 
-prompt_db = PromptDatabase(pinecone_pass=settings.PINECONE_KEY)
-
+prompt_db = PromptDatabase()
 compressor = Compressor()
 
 @csrf_exempt
@@ -23,9 +21,8 @@ def process_prompt_api(request):
         
         # Step 1: Apply NER
         anonymized_prompt = ner_wrapper.apply_ner(user_prompt)
-        entity_mapping = {}
         
-        # Step 2: Search FAISS
+        # Step 2: Search vector database for similar prompt
         matched_prompt = prompt_db.search_prompt(anonymized_prompt)
         if matched_prompt:
             final_prompt = ner_wrapper.reverse_ner(matched_prompt)

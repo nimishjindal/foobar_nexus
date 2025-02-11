@@ -112,5 +112,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-PINECONE_KEY = os.getenv("PINECONE_KEY")
