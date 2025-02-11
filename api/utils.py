@@ -2,7 +2,6 @@ from llmlingua import PromptCompressor
 from sentence_transformers import SentenceTransformer
 
 from api.ner import NER
-from api.open_ai import OpenAI
 from api.prompt_database import PromptDatabase
 
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
@@ -29,11 +28,3 @@ def apply_ner(prompt: str):
 
 def reverse_ner(anonymized_prompt: str):
     return ner_wrapper.reverse_ner(anonymized_prompt)
-
-open_ai_wrapper = OpenAI()
-
-def optimize_prompt(original_prompt: str):
-    return open_ai_wrapper.optimize(original_prompt)
-
-def evaluate_compression(prompt: str) -> str:
-    return open_ai_wrapper.evaluate_compression(prompt)
