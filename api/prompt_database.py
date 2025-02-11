@@ -21,21 +21,17 @@ class PromptDatabase:
 
     def search_prompt(self, query: str, top_k=1):
         """Finds the most similar prompt from the database"""        
-        results = self.vector_store.similarity_search(query, k=top_k)
+        results = self.vector_store.similarity_search_with_score(query, k=top_k)
         
         print(f"vector responses: {results}")
         
         if results:
             
             print(results[0])
-                    
-            # best_match_idx = results[0]
-            # best_match_distance = results[0]["score"]
             
-            # if best_match_idx in self.prompts and best_match_distance < (1 - SIMILARITY_THRESHOLD):
-            #     print(f"Similarity score: {best_match_distance}")
-            #     return self.prompts[best_match_idx]
+            document, score = results[0]
             
-            return results[0].page_content
+            if score > SIMILARITY_THRESHOLD:
+                return document.page_content
         
         return None
