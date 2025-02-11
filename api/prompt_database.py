@@ -8,7 +8,7 @@ class PromptDatabase:
 
     def __init__(self, embedding_model, pinecone_pass, pinecone_index="prompts", vector_dim=384):
         """Initialize vector database for similarity search"""
-        self.index = Pinecone(api_key=pinecone_pass).index(pinecone_index)
+        self.index = Pinecone(api_key=pinecone_pass).Index(pinecone_index)
         self.prompts = {}
         self.id_counter = 0
         self.embedding_model=embedding_model
@@ -20,14 +20,16 @@ class PromptDatabase:
     def add_prompt(self, prompt: str, user="Nimish"):
         """Embeds and stores a prompt in the vector database"""
         
-        self.prompts[self.id_counter] = prompt
+        idx = str(self.id_counter)
+        
+        self.prompts[idx] = prompt
         
         embedding = self.__encode(prompt)
 
         self.index.upsert(
             vectors=[
                 {
-                    "id": self.id_counter, 
+                    "id": idx, 
                     "values": embedding, 
                 }
             ],
@@ -41,13 +43,17 @@ class PromptDatabase:
         
         results = self.index.query(vector=query_embedding,top_k=top_k)
         
-        matched_record = results["matches"][0]
+        print(f"vector responses: {results}")
         
-        best_match_idx = matched_record["id"]
-        best_match_distance = matched_record["score"]
+        if results["matches"]:
         
-        if best_match_idx in self.prompts and best_match_distance < (1 - SIMILARITY_THRESHOLD):
-            print(f"Similarity score: {best_match_distance}")
-            return self.prompts[best_match_idx]
+            matched_record = results["matches"][0]
+            
+            best_match_idx = matched_record["id"]
+            best_match_distance = matched_record["score"]
+            
+            if best_match_idx in self.prompts and best_match_distance < (1 - SIMILARITY_THRESHOLD):
+                print(f"Similarity score: {best_match_distance}")
+                return self.prompts[best_match_idx]
         
         return None
