@@ -1,5 +1,6 @@
 from langchain_pinecone import PineconeVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_core.documents import Document
 
 
 
@@ -18,17 +19,11 @@ class PromptDatabase:
     def add_prompt(self, prompt: str, user="Nimish"):
         """Embeds and stores a prompt in the vector database"""
         
-        idx = str(self.id_counter)
+        idx = str(self.id_counter)        
+        document = Document(page_content=prompt)
+        self.vector_store.add_documents(documents=[document], ids=[idx])
         
         self.prompts[idx] = prompt
-        
-        document = {
-                    "id": idx, 
-                    'text': prompt, 
-                }
-        
-        self.vector_store.add_documents([document])
-        
         self.id_counter += 1
 
     def search_prompt(self, query: str, top_k=1):
