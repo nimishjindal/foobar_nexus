@@ -28,9 +28,8 @@ def process_prompt_api(request):
         entity_mapping = {}
         
         # Step 2: Search FAISS
-        matched_prompt, similarity_score = prompt_db.search_prompt(anonymized_prompt)
+        matched_prompt = prompt_db.search_prompt(anonymized_prompt)
         if matched_prompt:
-            print(f"Similarity score: {similarity_score}")
             final_prompt = ner_wrapper.reverse_ner(matched_prompt)
         else:
             print("No sufficiently similar prompt found in database.")
@@ -43,5 +42,10 @@ def process_prompt_api(request):
         user_prompt_eval_score = open_ai_wrapper.evaluate_compression(user_prompt)
         final_prompt_eval_score = open_ai_wrapper.evaluate_compression(final_prompt)
         
-        return JsonResponse({"original_prompt": user_prompt, "original_evaluation_score": user_prompt_eval_score, "final_prompt": final_prompt, "final_evaluation_score": final_prompt_eval_score})
+        return JsonResponse({
+                "original_prompt": user_prompt, 
+                "original_evaluation_score": user_prompt_eval_score, 
+                "final_prompt": final_prompt, 
+                "final_evaluation_score": final_prompt_eval_score
+            })
     return JsonResponse({"error": "Invalid request"}, status=400)

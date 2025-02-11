@@ -26,5 +26,6 @@ class PromptDatabase:
         best_match_idx = indices[0][0]
         best_match_distance = distances[0][0]
         if best_match_idx in self.prompts and best_match_distance < (1 - SIMILARITY_THRESHOLD):
-            return self.prompts[best_match_idx], best_match_distance
-        return None, None
+            print(f"Similarity score: {best_match_distance}")
+            return self.prompts[best_match_idx]
+        return None
