@@ -8,12 +8,13 @@ from api.compressor import Compressor
 from api.ner import NER
 from api.open_ai import OpenAI
 from api.prompt_database import PromptDatabase
+from django.conf import settings
 
 open_ai_wrapper = OpenAI()
 ner_wrapper = NER()
 
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
-prompt_db = PromptDatabase(embedding_model=embedding_model)
+prompt_db = PromptDatabase(embedding_model=embedding_model, pinecone_pass=settings.PINECONE_KEY)
 
 compressor = Compressor()
 

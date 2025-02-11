@@ -8,9 +8,9 @@ en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_
 sentence-transformers==3.4.1  # Needed for semantic similarity search
 torch==2.6.0  # Required for running deep learning models
 transformers==4.48.3  # Needed for handling Hugging Face models
-faiss-cpu==1.10.0  # For vector similarity search
 numpy==2.2.2  # General scientific computing
 requests==2.32.3  # Required for API calls
 streamlit>=1.18.0
 langchain-openai==0.3.4
 python-dotenv==1.0.1
+pinecone
