@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv, find_dotenv
 
 # Fix BASE_DIR to correctly reference the project folder
 BASE_DIR = Path(__file__).resolve().parent
+
+load_dotenv(find_dotenv())
 
 # SECURITY WARNING: Keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-#c9)-qi)rwu&l&7hfkh#xs^qor040@+%!1ps#d_sd$z@p5y6b6'
@@ -23,7 +26,7 @@ SECRET_KEY = 'django-insecure-#c9)-qi)rwu&l&7hfkh#xs^qor040@+%!1ps#d_sd$z@p5y6b6
 DEBUG = True  # Change to False in production
 
 # Allow local testing & deployments
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "0.0.0.0", "34.57.240.101","*"]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
@@ -34,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',  # Add Django REST Framework
-    'api',  # Add your custom API app
+    'api',
 ]
 
 MIDDLEWARE = [

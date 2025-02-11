@@ -24,3 +24,5 @@ db.sqlite3
 *.pyo
 *.egg-info/
 prompt_compressor/__init__.py
+.env
+learn.py

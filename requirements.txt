@@ -10,6 +10,7 @@ torch==2.6.0  # Required for running deep learning models
 transformers==4.48.3  # Needed for handling Hugging Face models
 faiss-cpu==1.10.0  # For vector similarity search
 numpy==2.2.2  # General scientific computing
-openai==1.61.1  # Needed for GPT-based optimization (if used)
 requests==2.32.3  # Required for API calls
 streamlit>=1.18.0
+langchain-openai==0.3.4
+python-dotenv==1.0.1
