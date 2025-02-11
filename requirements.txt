@@ -5,12 +5,12 @@ uvicorn==0.29.0  # Needed for running ASGI Django if using FastAPI
 llmlingua==0.2.2  # The core prompt compression library
 spacy==3.8.4  # Needed for Named Entity Recognition (NER)
 en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
-sentence-transformers==3.4.1  # Needed for semantic similarity search
 torch==2.6.0  # Required for running deep learning models
 transformers==4.48.3  # Needed for handling Hugging Face models
-numpy==2.2.2  # General scientific computing
+numpy  # General scientific computing
 requests==2.32.3  # Required for API calls
 streamlit>=1.18.0
-langchain-openai==0.3.4
 python-dotenv==1.0.1
-pinecone
+langchain-openai==0.3.4
+langchain-pinecone==0.2.2
+langchain-huggingface==0.1.2
